@@ -1,29 +1,34 @@
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import { lightTheme, darkTheme } from "./styles/themes";
-import React, { useState } from "react";
+
 
 //Importing components
 import NavigationBar from "./components/navbar";
+import Blog from "./components/blog";
+import BlogPostPage from "./components/blogPostPage";
 
 function App() {
   const [theme, setTheme] = useState("dark");
 
-  const appliedTheme = theme === "light" ? lightTheme : darkTheme;
-  console.log("Applied theme:", appliedTheme);
+const appliedTheme = theme === "light" ? lightTheme : darkTheme;
+console.log("Applied theme:", appliedTheme);
 
-  return (
-    <ThemeProvider theme={appliedTheme}>
-      <CssBaseline />
+return (
+  <ThemeProvider theme={appliedTheme}>
+    <CssBaseline />
+    <Router>
       <NavigationBar />
-      <Typography variant="p">Hello, this is paragraph Typography!</Typography>
-      <Typography variant="h3">Hello, this is a h3 Typography!</Typography>
-      <Typography variant="h2">Hello, this is h2 Typography!</Typography>
-      <Typography variant="h1">Hello, this is h1 Typography!</Typography>
-      {/* Your app content here */}
-    </ThemeProvider>
-  );
+      <Routes>
+        <Route path="/" element={<Blog />} />
+        <Route path="/blog/:postId" element={<BlogPostPage />} />
+      </Routes>
+    </Router>
+  </ThemeProvider>
+);
 }
 
 export default App;
