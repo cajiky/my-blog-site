@@ -4,6 +4,9 @@ import Typography from "@mui/material/Typography";
 import { lightTheme, darkTheme } from "./styles/themes";
 import React, { useState } from "react";
 
+//Importing components
+import NavigationBar from "./components/navbar";
+
 function App() {
   const [theme, setTheme] = useState("dark");
 
@@ -13,6 +16,7 @@ function App() {
   return (
     <ThemeProvider theme={appliedTheme}>
       <CssBaseline />
+      <NavigationBar />
       <Typography variant="p">Hello, this is paragraph Typography!</Typography>
       <Typography variant="h3">Hello, this is a h3 Typography!</Typography>
       <Typography variant="h2">Hello, this is h2 Typography!</Typography>
