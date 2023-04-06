@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 
 
 const NavigationBar = () => {
@@ -22,7 +23,9 @@ const NavigationBar = () => {
                 </IconButton>
                 <Typography variatnt="h6" component="div" sx={{ flexGrow: 1 }}>
                     <Button color="inherit">Home</Button>
-                    <Button color="inherit">Blog</Button>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <Button color="inherit">Blog</Button>
+                    </Link>
                     <Button color="inherit">Resume</Button>
                 </Typography>
             </Toolbar>
