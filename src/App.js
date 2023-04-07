@@ -10,6 +10,7 @@ import { lightTheme, darkTheme } from "./styles/themes";
 import NavigationBar from "./components/navbar";
 import Blog from "./components/blog";
 import BlogPostPage from "./components/blogPostPage";
+import NewPost from "./components/newPost";
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -26,6 +27,7 @@ return (
         <Route path="/" element={<Blog />} />
         <Route path="/blog" element={<Blog />}/>
         <Route path="/blog/:postId" element={<BlogPostPage />} />
+        <Route path="/newPost" element={<NewPost/>} />
         <Route />
       </Routes>
     </Router>

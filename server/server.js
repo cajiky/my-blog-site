@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const Post = require("./models/Post");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -15,7 +16,7 @@ mongoose.connect(mongoURI, {
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once(open, () => {
+db.once("open", () => {
     console.log("Successfuly connected to MongoDB Atlas!");
 });
 
@@ -33,12 +34,28 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-app.get('/api/posts', (req,res) => {
-    const posts = [
-        //below we're creating test blog posts that will be replaced with a call to the database
-        {id:1, title: 'Hello World', content: 'This is my first blog post'},
-        {id:2, title: 'Another Post', content: 'This is my second blog post'},
-    ];
-//this route will return an array of blogposts as a JSON when its requested from the client
-    res.json(posts);
+app.get('/api/posts', async (req, res) => {
+    try {
+        const posts = await Post.find();
+        res.json(posts);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching posts:', err });
+    }
 });
+
+app.post('/api/posts', async (req, res) => {
+    try {
+        const newPost = new Post({
+            title: req.body.title,
+            content: req.body.content,
+            image: req.body.image,
+        });
+
+        const savedPost = await newPost.save();
+        res.json(savedPost);
+    } catch (err) {
+        res.status(500).json({ message: 'Error creating post:', err });
+    }
+});
+
+  

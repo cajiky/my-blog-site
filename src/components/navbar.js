@@ -22,11 +22,16 @@ const NavigationBar = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variatnt="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Button color="inherit">Home</Button>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <Button color="inherit">Home</Button>
+                    </Link>
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <Button color="inherit">Blog</Button>
                     </Link>
                     <Button color="inherit">Resume</Button>
+                    <Link to="/newPost" style ={{ textDecoration: 'none' }}>
+                        <Button color="inherit">New Post</Button>
+                    </Link>
                 </Typography>
             </Toolbar>
         </AppBar>

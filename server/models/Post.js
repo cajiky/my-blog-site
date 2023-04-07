@@ -1,10 +1,10 @@
 const mongoose =require("mongoose");
 
-const postSchema = new.mongoose.Schema({
+const postSchema = new mongoose.Schema({
     title: { type: String, required: true },
     image: { type: String, required: true },
-    content: { type: String, required false },
-    createdAt: { type: Date, default Date.now }
+    content: { type: String, required: false },
+    createdAt: { type: Date, default: Date.now }
 });
 
 const Post = mongoose.model("Post", postSchema);

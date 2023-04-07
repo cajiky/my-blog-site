@@ -6,16 +6,15 @@ import BlogPost from "./blogPost";
 
 
 const Blog = () => {
-    const [blogPosts, setBlogPosts] = useState([]);
+    const [blogPosts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchBlogPosts = async () => {
-            const posts = await fetchPosts();
-            setBlogPosts(posts);
+        const getPosts = async () => {
+          const data = await fetchPosts();
+          setPosts(data);
         };
-
-        fetchBlogPosts();
-    }, []);
+        getPosts();
+      }, []);
 
     return(
         <Container maxWidth='md'>

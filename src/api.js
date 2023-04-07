@@ -16,4 +16,14 @@ export const fetchPosts = async () => {
     }
 };
 
+export const createPost = async (postData) => {
+    try {
+        const response = await api.post('/posts', postData);
+        return response.data;
+    } catch (error) {
+        console.error('error creating post:', error);
+        return null;
+    }
+};
+
 export default api;
