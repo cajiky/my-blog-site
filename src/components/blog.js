@@ -21,13 +21,16 @@ const Blog = () => {
         <Container maxWidth='md'>
             <Box sx={{ my:4 }}>
                 <Grid container spacing={4}>
-                    <Grid item={12} sm={6} md={4}>
+                {blogPosts.map((post) => (
+                    <Grid item xs={12} sm={6} md={4} key={post.id}>
                         <BlogPost
+                        id={post.id}
                         title={post.title}
                         image={post.image}
                         content={post.content}
                         />
                     </Grid>
+                ))}
                 </Grid>
             </Box>
         </Container>

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const BlogPost = ({ id, title, image, content }) => {
     return(
         <Card>
-            <CardActionArea component={Link} to={'/blog/${id}'}>
+            <CardActionArea component={Link} to={`/blog/${id}`}>
                 <CardMedia 
                 component="img"
                 height="200"

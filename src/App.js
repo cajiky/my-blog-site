@@ -24,7 +24,9 @@ return (
       <NavigationBar />
       <Routes>
         <Route path="/" element={<Blog />} />
+        <Route path="/blog" element={<Blog />}/>
         <Route path="/blog/:postId" element={<BlogPostPage />} />
+        <Route />
       </Routes>
     </Router>
   </ThemeProvider>

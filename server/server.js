@@ -1,9 +1,25 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+const mongoURI = "mongodb+srv://cajiky:Dood1025@my-blog.fe7x9qh.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once(open, () => {
+    console.log("Successfuly connected to MongoDB Atlas!");
+});
+
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,5 +40,5 @@ app.get('/api/posts', (req,res) => {
         {id:2, title: 'Another Post', content: 'This is my second blog post'},
     ];
 //this route will return an array of blogposts as a JSON when its requested from the client
-    res.json(post);
+    res.json(posts);
 });

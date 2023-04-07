@@ -9,7 +9,7 @@ const BlogPostPage = () => {
 
     //Below we have sample data that we will replace with a function to fetch the actual blog post data from our db
     const sampleData = {
-        title: 'Blog Post ${postId}',
+        title: `Blog Post ${postId}`,
         image: 'https://via.placeholder.com/900x300',
         content: 'This is a sample blog post. Content will be fetched from the db',
     }

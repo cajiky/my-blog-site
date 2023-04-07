@@ -8,6 +8,7 @@ const api = axios.create({
 export const fetchPosts = async () => {
     try {
         const response = await api.get('/posts');
+        console.log('fetching posts');
         return response.data;
     } catch (error) {
         console.error('error fetching posts:', error);
