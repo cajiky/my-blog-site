@@ -4,10 +4,39 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const Post = require("./models/Post");
 
+//authentication
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+const User = require("./models/User");
+const userRoutes = require('./routes/userRoutes'); 
+require('dotenv').config();
+
+const secretKey = process.env.SECRET_KEY;
+
 const app = express();
 const port = process.env.PORT || 5000;
 
 const mongoURI = "mongodb+srv://cajiky:Dood1025@my-blog.fe7x9qh.mongodb.net/?retryWrites=true&w=majority";
+
+//Middleware
+app.use(cookieParser());
+app.use('/api/users', userRoutes);
+
+//Registration route
+app.post('/api/register', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      const existingUser = await User.findOne({ username });
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists.' });
+      }
+      const user = new User({ username, password });
+      await user.save();
+      res.status(201).json({ message: 'User registered successfully.' });
+    } catch (err) {
+      res.status(500).json({ message: 'Error registering user:', err });
+    }
+  });
 
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
@@ -43,6 +72,20 @@ app.get('/api/posts', async (req, res) => {
     }
 });
 
+//route to fetch a single post with a specific id
+app.get("/api/posts/:id", async (req, res) => {
+    const postId = req.params.id;
+
+    try {
+        const post = await Post.findById(postId);
+        console.log(postId);
+        res.json(post);
+    } catch (err) {
+        res.status(500).json({ message: "error fetching post:", err });
+    }
+});
+
+// route to sumbit a new post
 app.post('/api/posts', async (req, res) => {
     try {
         const newPost = new Post({
@@ -56,6 +99,32 @@ app.post('/api/posts', async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Error creating post:', err });
     }
+});
+
+//Login route
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid username or password.'});
+        }
+        const token = jwt.sign({ userId: user._id }, { secretKey }, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true });
+        res.json({ message: 'User logged in successfully.' });
+    } catch (err) {
+        res.status(500).json({ message: 'Error loggin in', err });
+    }
+});
+
+//Logout route
+app.post('/api/logout', (req, res) => {
+    res.clearCookie('token');
+    res.json({ message: 'User logged out successfuly.' });
 });
 
   

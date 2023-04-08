@@ -1,33 +1,40 @@
-//this componet will be our individual blog post pages that will be accessed by clicking on the cards of our blog page
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
+import { fetchPost } from '../api';
 
 const BlogPostPage = () => {
-    const { postId } = useParams();
+  const { postId } = useParams();
+  const [post, setPost] = useState(null);
 
-    //Below we have sample data that we will replace with a function to fetch the actual blog post data from our db
-    const sampleData = {
-        title: `Blog Post ${postId}`,
-        image: 'https://via.placeholder.com/900x300',
-        content: 'This is a sample blog post. Content will be fetched from the db',
-    }
+  useEffect(() => {
+    const fetchPostData = async () => {
+      const postData = await fetchPost(postId);
+      console.log(postId);
+      setPost(postData);
+    };
 
-    // taking  
-    const { title, image, content } = sampleData;
+    fetchPostData();
+  }, [postId]);
 
-    return(
-        <Container>
-            <Typography variant="h3" component="h1" gutterBottom>
-                {title}
-            </Typography>
-            <img src={image} alt={title} style={{ width: '100%', height: 'auto'}} />
-            <Typography variant="body1" component="div" gutterBottom>
-                {content}
-            </Typography>
-        </Container>
-    );
+  if (!post) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <Container>
+    <Box sx={{ height: '40vh' }}>
+      <img src={post.image} alt="your image" style={{ width: '100%', height: '50%', objectFit: 'cover' }} />
+      {/* Rest of your content goes here */}
+    </Box>
+      <Typography variant="h3" component="h1" gutterBottom>
+        {post.title}
+      </Typography>
+      <Typography variant="body1">
+        {post.content}
+      </Typography>
+    </Container>
+  );
 };
 
 export default BlogPostPage;

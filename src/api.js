@@ -16,6 +16,17 @@ export const fetchPosts = async () => {
     }
 };
 
+//function for grabbing individual posts of the id that was clicked on on the blog component
+export const fetchPost = async (id) => {
+    try {
+        const response = await api.get(`/posts/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(`error fetching post with id ${id}:`, error);
+        return null;
+    }
+}
+
 export const createPost = async (postData) => {
     try {
         const response = await api.post('/posts', postData);
