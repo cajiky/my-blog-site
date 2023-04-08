@@ -32,6 +32,12 @@ const NavigationBar = () => {
                     <Link to="/newPost" style ={{ textDecoration: 'none' }}>
                         <Button color="inherit">New Post</Button>
                     </Link>
+                    <Link to="/register" style={{ textDecoration: "none", color: "inherit" }}>
+                        <Button color="inherit">Register</Button>
+                    </Link>
+                    <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+                        <Button color="inherit">Login</Button>
+                    </Link>
                 </Typography>
             </Toolbar>
         </AppBar>

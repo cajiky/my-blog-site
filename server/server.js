@@ -14,29 +14,19 @@ require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 
 const app = express();
+app.use(cors());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
 const port = process.env.PORT || 5000;
 
 const mongoURI = "mongodb+srv://cajiky:Dood1025@my-blog.fe7x9qh.mongodb.net/?retryWrites=true&w=majority";
 
 //Middleware
-app.use(cookieParser());
+
 app.use('/api/users', userRoutes);
 
-//Registration route
-app.post('/api/register', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      const existingUser = await User.findOne({ username });
-      if (existingUser) {
-        return res.status(400).json({ message: 'User already exists.' });
-      }
-      const user = new User({ username, password });
-      await user.save();
-      res.status(201).json({ message: 'User registered successfully.' });
-    } catch (err) {
-      res.status(500).json({ message: 'Error registering user:', err });
-    }
-  });
+
 
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
@@ -50,10 +40,6 @@ db.once("open", () => {
 });
 
 
-
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
 
 app.get("/", (req, res) => {
     res.send("Hello from the Express server!");
