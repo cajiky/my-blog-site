@@ -12,15 +12,24 @@ const cookieParser = require("cookie-parser");
 const User = require("./models/User");
 const userRoutes = require('./routes/userRoutes'); 
 
+//Routes
+const commentRoutes = require('./routes/commentRoutes');
+
 
 const secretKey = process.env.SECRET_KEY;
 console.log('Secret key:', secretKey);
 
+const corsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use('/api', commentRoutes);
 const port = process.env.PORT || 5000;
 
 const mongoURI = "mongodb+srv://cajiky:Dood1025@my-blog.fe7x9qh.mongodb.net/?retryWrites=true&w=majority";

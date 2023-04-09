@@ -3,6 +3,7 @@ import axios from 'axios';
 //Here we create an axios instance with the base URL pointing to our backend express server
 const api = axios.create({
     baseURL: 'http://localhost:5000/api',
+    withCredentials: true,
 });
 
 export const fetchPosts = async () => {
