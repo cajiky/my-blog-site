@@ -1,10 +1,6 @@
-// this is our schema for our user system and authentication and user levles
-
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const { BabyChangingStation } = require('@mui/icons-material');
 
-//setting up the schema for how i want our user
 const UserSchema = new mongoose.Schema({
     username:{
         type: String,
@@ -18,7 +14,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.pre('save', async function (next) {
-    if(this.isModified('password'))return next();
+    if (!this.isModified('password')) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
