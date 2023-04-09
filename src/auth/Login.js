@@ -3,6 +3,7 @@ import { Button, TextField, Grid, Typography, Container } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import api from "../api";
+import { useAuth } from '../auth-context';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
     marginTop: theme.spacing(3),
@@ -12,12 +13,14 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState(null);
+    const auth = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await api.post("/login", { username, password });
             setMessage(response.data.message);
+            auth.login();
         } catch (error) {
             setMessage(error.response.data.message || "Error login in");
         }
