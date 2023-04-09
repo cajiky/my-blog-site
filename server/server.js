@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '../.env' });
+
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -9,9 +11,10 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const User = require("./models/User");
 const userRoutes = require('./routes/userRoutes'); 
-require('dotenv').config();
+
 
 const secretKey = process.env.SECRET_KEY;
+console.log('Secret key:', secretKey);
 
 const app = express();
 app.use(cors());
@@ -99,13 +102,15 @@ app.post('/api/login', async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid username or password.'});
         }
-        const token = jwt.sign({ userId: user._id }, { secretKey }, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
         res.cookie('token', token, { httpOnly: true });
         res.json({ message: 'User logged in successfully.' });
     } catch (err) {
+        console.log('Error in login route:', err); // Add this line for more logging
         res.status(500).json({ message: 'Error loggin in', err });
     }
 });
+
 
 //Logout route
 app.post('/api/logout', (req, res) => {
