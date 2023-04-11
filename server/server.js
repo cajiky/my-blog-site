@@ -17,7 +17,6 @@ const commentRoutes = require('./routes/commentRoutes');
 
 
 const secretKey = process.env.SECRET_KEY;
-console.log('Secret key:', secretKey);
 
 const corsOptions = {
     origin: "http://localhost:3000",
